@@ -1,0 +1,30 @@
+environment: production
+
+server:
+  grpc_addr: ":8080"
+  tls:
+    cert_file: ""
+    key_file: ""
+    require_client_cert: false
+
+database:
+  dsn: ""
+  max_conns: 20
+
+mail:
+  enabled: true
+  host: ""
+  port: 587
+  username: ""
+  password: ""
+  from: ""
+  verify_url: ""
+
+security:
+  jwt_signing_key: ""
+  jwt_key_id: ""
+  login_rate_limit: 10
+  login_rate_window: 1m
+
+locky:
+  auto_verify_email: false

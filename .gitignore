@@ -1,0 +1,59 @@
+# Binaries and local build output
+/bin/
+/build/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go tooling output
+*.test
+*.out
+coverage.out
+coverage.html
+coverprofile.out
+vendor/
+
+# Local runtime files
+/tmp/
+/logs/
+*.log
+*.pid
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Local TLS certificates
+/certs/
+
+# Local configuration overrides
+configs/*local*.yaml
+configs/*local*.yml
+configs/*local*.json
+configs/*production*.local.yaml
+configs/*production*.local.yml
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Generated local tooling/cache files
+.sqlc/
+.cache/

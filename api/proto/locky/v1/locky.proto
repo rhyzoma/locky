@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package locky.v1;
+option go_package = "github.com/rhyzoma/locky/api/gen/locky/v1;lockyv1";
+
+service LockyService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (TokenResponse);
+  rpc Logout(LogoutRequest) returns (Empty);
+  rpc VerifyEmail(VerifyEmailRequest) returns (Empty);
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (User);
+}
+
+message RegisterRequest { string email = 1; string password = 2; }
+message RegisterResponse { User user = 1; }
+message LoginRequest { string email = 1; string password = 2; }
+message LoginResponse { User user = 1; TokenResponse tokens = 2; }
+message RefreshTokenRequest { string refresh_token = 1; }
+message TokenResponse { string access_token = 1; string refresh_token = 2; int64 expires_in = 3; }
+message LogoutRequest { string refresh_token = 1; }
+message VerifyEmailRequest { string token = 1; }
+message GetCurrentUserRequest { string user_id = 1; }
+message User {
+  string id = 1;
+  string email = 2;
+  bool email_verified = 3;
+  string status = 4;
+}
+message Empty {}
