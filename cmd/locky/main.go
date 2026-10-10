@@ -76,7 +76,11 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("listen: %w", err)
 	}
-	defer listener.Close()
+	defer func() {
+		if err := listener.Close(); err != nil {
+			slog.Warn("close listener", "err", err)
+		}
+	}()
 
 	tlsConfig, err := security.ServerTLSConfig(cfg.Server.TLS)
 	if err != nil {

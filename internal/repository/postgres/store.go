@@ -169,12 +169,16 @@ func (s *SessionStore) ByTokenHash(ctx context.Context, tokenHash string) (domai
 	}, nil
 }
 
-func (s *SessionStore) Rotate(ctx context.Context, oldTokenHash string, next domain.Session) error {
+func (s *SessionStore) Rotate(ctx context.Context, oldTokenHash string, next domain.Session) (err error) {
 	tx, err := s.store.pool.Begin(ctx)
 	if err != nil {
 		return fmt.Errorf("begin session rotation: %w", err)
 	}
-	defer tx.Rollback(ctx)
+	defer func() {
+		if rollbackErr := tx.Rollback(ctx); rollbackErr != nil && !errors.Is(rollbackErr, pgx.ErrTxClosed) {
+			err = errors.Join(err, fmt.Errorf("rollback session rotation: %w", rollbackErr))
+		}
+	}()
 
 	queries := s.store.queries.WithTx(tx)
 	rows, err := queries.RevokeSessionForRotation(ctx, oldTokenHash)
