@@ -22,7 +22,8 @@ func TestJWTSignIncludesKeyID(t *testing.T) {
 		t.Fatalf("Sign() error = %v", err)
 	}
 
-	token, err := jwt.Parse(rawToken, func(token *jwt.Token) (any, error) {
+	parser := jwt.NewParser(jwt.WithTimeFunc(func() time.Time { return issuedAt }))
+	token, err := parser.Parse(rawToken, func(token *jwt.Token) (any, error) {
 		if token.Method != jwt.SigningMethodHS256 {
 			t.Fatalf("signing method = %v, want HS256", token.Method.Alg())
 		}
